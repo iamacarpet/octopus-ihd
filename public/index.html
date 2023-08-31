@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Octopus Energy IHD (Virtual In Home Display)</title>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css"
+        integrity="sha512-8vq2g5nHE062j3xor4XxPeZiPjmRDh6wlufQlfC6pdQ/9urJkU07NM0tEREeymP++NczacJ/Q59ul+/K2eYvcg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.css"
+        integrity="sha512-0w74+CBOlTu44j+e8dSKFl/5Qg9JoJhfK7Gf/+5bdtzJgqP7N3+02W02rQqRrywlm8cKXg3YwQWMBIS18GYPZg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body id="body" class="hold-transition login-page">
+    <div id="login-box" class="login-box">
+
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="#" class="h2"><b>Octopus Energy</b> IHD</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in with your <b>Octopus Energy</b> credentials to continue</p>
+                <form onsubmit="loginFormSubmit(); return false" method="post">
+                    <div class="input-group mb-3">
+                        <input type="email" id="login-email" class="form-control" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" id="login-password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="social-auth-links text-center mt-2 mb-3">
+                        <button id="login-submit" type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="ihd-page" class="wrapper d-none">
+
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link" style="color: #000000;"><b>Octopus Energy</b></a>
+                </li>
+
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" id="octopus-user-fullname" class="nav-link" style="color: #000000;">John Doe</a>
+                </li>
+
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a href="#" id="octopus-account-ref" class="nav-link" style="color: #000000;"><b>A-B12C3D45</b></a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <div class="content-wrapper" style="min-height: 1604.44px;">
+
+            <section class="content">
+                <div class="row">
+                    <div class="col-12 mt-3 text-center">
+                        <p class="lead">
+                            Virtial IHD (In Home Display) will be visible here shortly
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 0.0.1
+            </div>
+            <strong>Copyright © 2023 <a href="https://github.com/iamacarpet/octopus-ihd">iamacarpet</a>.</strong> All rights reserved.
+        </footer>
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.bundle.min.js"
+        integrity="sha512-mULnawDVcCnsk9a4aG1QLZZ6rcce/jSzEGqUkeOLy0b6q0+T6syHrxlsAGH7ZVoqC93Pd0lBqd6WguPWih7VHA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"
+        integrity="sha512-KBeR1NhClUySj9xBB0+KRqYLPkM6VvXiiWaSz/8LCQNdRpUm38SWUrj0ccNDNSkwCD9qPA4KobLliG26yPppJA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
+    <script>
+        var username = false;
+        var password = false;
+
+        var token = false;
+
+        $.gql = async function (query, includeAuthentication = true) {
+            var headers = {};
+
+            if (includeAuthentication) {
+                headers = {
+                    "Authorization": await fetchToken()
+                };
+            }
+
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "https://api.octopus.energy/v1/graphql/",
+                    method: 'POST',
+                    headers: headers,
+                    data: JSON.stringify(query),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: resolve,
+                    error: reject
+                });
+            });
+        }
+
+        async function fetchUserInfo() {
+            result = await $.gql({
+                "operationName": "viewer",
+                "query": `query viewer {
+                        viewer {
+                            fullName
+                            accounts {
+                            number
+                            }
+                        }
+                    }`
+            });
+
+            console.log(result.data.viewer);
+
+            return result.data.viewer;
+        }
+
+        async function fetchToken() {
+            if (token != false) {
+                var decoded = jwt_decode(token);
+
+                if (decoded.exp < (getTimestampInSeconds() + 60)) {
+                    console.log('Authentication token expired, renewing...');
+
+                    await performLogin();
+                }
+
+                return token;
+            } else {
+                console.error("Invalid Token");
+                return false;
+            }
+        }
+
+        async function performLogin(u, p) {
+            if (arguments.length == 2) {
+                username = u;
+                password = p;
+            }
+
+            console.log('Performing login as ' + username);
+
+            result = await $.gql({
+                "operationName": "krakenTokenAuthentication",
+                "query": `mutation krakenTokenAuthentication($email: String!, $password: String!) {
+                        obtainKrakenToken(input: {email: $email, password: $password}) {
+                            token
+                        }
+                    }`,
+                "variables": {
+                    "email": username,
+                    "password": password,
+                }
+            }, false);
+
+            token = result.data.obtainKrakenToken.token;
+
+            console.log('Successfully obtained token: ' + token);
+        }
+
+        async function loginFormSubmit() {
+            $('#login-submit').prop('disabled', true);
+            $('#login-submit').html('<i class="fa-solid fa-cog fa-spin"></i>');
+
+            setTimeout(async function(){
+                try {
+                    await performLogin(
+                        $('#login-email').val(),
+                        $('#login-password').val()
+                    );
+                } catch (e) {
+                    $('#login-submit').removeClass('btn-primary');
+                    $('#login-submit').addClass('btn-danger');
+                    $('#login-submit').html('FAILED');
+                    console.log('LOGIN FAILED');
+
+                    setTimeout(function() {
+                        $('#login-submit').removeClass('btn-danger');
+                        $('#login-submit').addClass('btn-primary');
+                        $('#login-submit').html('Sign In');
+                        $('#login-submit').prop('disabled', false);
+                    }, 1000);
+
+                    return;
+                }
+
+                userInfo = await fetchUserInfo();
+
+                $('#octopus-user-fullname').html(userInfo.fullName);
+                $('#octopus-account-ref').html(userInfo.accounts[0].number);
+
+                $('#login-box').addClass('d-none');
+
+                $('#body').removeClass('hold-transition');
+                $('#body').removeClass('login-page');
+
+                $('#body').addClass('layout-top-nav');
+                $('#body').attr('style', "height: auto;");
+
+                $('#ihd-page').removeClass('d-none');
+            }, 500);
+        }
+
+        function getTimestampInSeconds() {
+            return Math.floor(Date.now() / 1000)
+        }
+    </script>
+
+</body>
+
+</html>
