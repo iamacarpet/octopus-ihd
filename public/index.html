@@ -85,14 +85,52 @@
             </ul>
         </nav>
 
-        <div class="content-wrapper" style="min-height: 1604.44px;">
+        <div class="content-wrapper" style="padding: 15px; min-height: 1604.44px;">
 
             <section class="content">
                 <div class="row">
-                    <div class="col-12 mt-3 text-center">
-                        <p class="lead">
-                            Virtial IHD (In Home Display) will be visible here shortly
-                        </p>
+                    <div class="col-md-3">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Live Usage</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6" style="height:200px;width:100%">
+                                        <div style="position:relative;width:210px;margin:auto">
+                                            <div style="position:absolute;left:15px;top:10px">
+                                                <input class="knob" id="live-usage" data-angleOffset=-125 data-angleArc=250 data-fgColor="#66EE66" data-min="0" data-max="10000" value="650" data-displayInput=false data-width="180" data-height="180" data-readOnly=true>
+                                            </div>
+                                            <div style="position:absolute;left:78px;top:65px" id="live-usage-icon">
+                                                <i class="fa-solid fa-bolt" style="font-size: 4rem;"></i>
+                                            </div>
+                                            <!--<div style="position:absolute;left:110px;top:110px">
+                                                <input class="knob second" data-min="0" data-max="60" data-bgColor="#333" data-fgColor="rgb(127, 255, 0)" data-displayInput=false data-width="100" data-height="100" data-thickness=".3">
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="d-none d-md-block col-md-12 text-right" style="font-size: 2.5rem; height:35px;">
+                                                &nbsp;
+                                            </div>
+                                            <div id="live-usage-total" class="col-md-12 text-center text-md-right m-md-0" style="font-size: 2.5rem; height:50px; margin-top: -45px;">
+                                                7.48 kW
+                                            </div>
+                                            <div id="live-usage-cost" class="col-md-12 text-center text-md-right" style="font-size: 2.5rem; height:50px;">
+                                                £ 0.00 / hr
+                                            </div>
+                                            <div class="d-none d-md-block col-md-12 text-right" style="font-size: 2.5rem; height:25px;">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
             </section>
@@ -103,7 +141,8 @@
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 0.0.1
             </div>
-            <strong>Copyright © 2023 <a href="https://github.com/iamacarpet/octopus-ihd">iamacarpet</a>.</strong> All rights reserved.
+            <strong>Copyright © 2023 <a href="https://github.com/iamacarpet/octopus-ihd">iamacarpet</a>.</strong> All
+            rights reserved.
         </footer>
 
     </div>
@@ -123,11 +162,88 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/3.4.2/luxon.min.js" integrity="sha512-TETg2zvTcaOsvJIMUqb8NA7XzoqyT709S0hcriUF2cWtJlM0WQsq6Vk/0EjaeDW8lsceYp5UB9iq8VUTzwMwLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"
+        integrity="sha512-NhRZzPdzMOMf005Xmd4JonwPftz4Pe99mRVcFeRDcdCtfjv46zPIi/7ZKScbpHD/V0HB1Eb+ZWigMqw94VUVaw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
+        $(function ($) {
+
+            $(".knob").knob({
+                change: function (value) {
+                    //console.log("change : " + value);
+                },
+                release: function (value) {
+                    //console.log(this.$.attr('value'));
+                    console.log("release : " + value);
+                },
+                cancel: function () {
+                    console.log("cancel : ", this);
+                },
+                /*format : function (value) {
+                 return value + '%';
+                 },*/
+                draw: function () {
+
+                    // "tron" case
+                    if (this.$.data('skin') == 'tron') {
+
+                        this.cursorExt = 0.3;
+
+                        var a = this.arc(this.cv)  // Arc
+                            , pa                   // Previous arc
+                            , r = 1;
+
+                        this.g.lineWidth = this.lineWidth;
+
+                        if (this.o.displayPrevious) {
+                            pa = this.arc(this.v);
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.pColor;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                            this.g.stroke();
+                        }
+
+                        this.g.beginPath();
+                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                        this.g.stroke();
+
+                        this.g.lineWidth = 2;
+                        this.g.beginPath();
+                        this.g.strokeStyle = this.o.fgColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                        this.g.stroke();
+
+                        return false;
+                    }
+                }
+            });
+
+            /*setTimeout(function(){
+                $('#live-usage').val(1200).trigger("change").trigger('configure', {'fgColor': '#dc3545'});
+            }, 5000);*/
+
+        });
+    </script>
+
+    <script>
+        var DateTime = luxon.DateTime;
+
         var username = false;
         var password = false;
 
         var token = false;
+
+        var globalData = {
+            account: null,
+
+            meters: null,
+
+            currentDemand: null
+        }
 
         $.gql = async function (query, includeAuthentication = true) {
             var headers = {};
@@ -159,7 +275,7 @@
                         viewer {
                             fullName
                             accounts {
-                            number
+                                number
                             }
                         }
                     }`
@@ -168,6 +284,100 @@
             console.log(result.data.viewer);
 
             return result.data.viewer;
+        }
+
+        async function fetchMeterInformation() {
+            result = {
+                "electricity": {
+                    "import": null,
+                    "export": null
+                },
+                "gas": null
+            };
+
+            rresult = await $.gql({
+                "operationName": "GetTariffDetails",
+                "query": `query GetTariffDetails($accountNumber: String!) {
+                    properties(accountNumber: $accountNumber, active: true) {
+                        electricityMeterPoints {
+                            mpan
+                            meters(includeInactive: false) {
+                                ...ElectricityMeter
+                            }
+                        }
+                    }
+                }
+
+                fragment Device on SmartMeterDeviceType {
+                    deviceId
+                }
+
+                fragment ElectricityMeter on ElectricityMeterType {
+                    installationDate
+                    serialNumber
+                    consumptionUnits
+                    meterPoint {
+                        mpan
+                    }
+                    smartImportElectricityMeter {
+                        ...Device
+                        deviceId
+                    }
+                    smartExportElectricityMeter {
+                        ...Device
+                        deviceId
+                    }
+                }`,
+                "variables": { "accountNumber": globalData.accountInfo.accounts[0].number }
+            });
+
+            rresult.data.properties[0].electricityMeterPoints.forEach(function (emeter) {
+                if (emeter.meters[0].smartImportElectricityMeter != null) {
+                    result.electricity.import = {
+                        "mpan": emeter.mpan,
+                        "consumptionUnits": emeter.meters[0].consumptionUnits,
+                        "deviceId": emeter.meters[0].smartImportElectricityMeter.deviceId
+                    }
+                } else if (emeter.meters[0].smartExportElectricityMeter != null) {
+                    result.electricity.export = {
+                        "mpan": emeter.mpan,
+                        "consumptionUnits": emeter.meters[0].consumptionUnits,
+                        "deviceId": emeter.meters[0].smartExportElectricityMeter.deviceId
+                    }
+                }
+            });
+
+            return result;
+        }
+
+        async function getCurrentDemand() {
+            result = await $.gql({
+                "operationName": "GetSmartMeterTelemetry",
+                "variables": {
+                    "deviceID": globalData.meters.electricity.import.deviceId,
+                    "startDate": DateTime.now().minus({minutes: 3}).toISO(),
+                    "endDate": DateTime.now().plus({minutes: 1}).toISO(),
+                    "grouping": "TEN_SECONDS"
+                },
+                "query": `query GetSmartMeterTelemetry($deviceID: String!, $startDate: DateTime!, $endDate: DateTime!, $grouping: TelemetryGrouping!) {
+                    smartMeterTelemetry(
+                        deviceId: $deviceID
+                        start: $startDate
+                        end: $endDate
+                        grouping: $grouping
+                    ) {
+                        readAt
+                        consumption
+                        demand
+                        consumptionDelta
+                        costDelta
+                    }
+                }`
+            });
+
+            recent = result.data.smartMeterTelemetry.slice(-1);
+
+            return recent[0].demand;
         }
 
         async function fetchToken() {
@@ -217,7 +427,7 @@
             $('#login-submit').prop('disabled', true);
             $('#login-submit').html('<i class="fa-solid fa-cog fa-spin"></i>');
 
-            setTimeout(async function(){
+            setTimeout(async function () {
                 try {
                     await performLogin(
                         $('#login-email').val(),
@@ -229,7 +439,7 @@
                     $('#login-submit').html('FAILED');
                     console.log('LOGIN FAILED');
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#login-submit').removeClass('btn-danger');
                         $('#login-submit').addClass('btn-primary');
                         $('#login-submit').html('Sign In');
@@ -239,10 +449,15 @@
                     return;
                 }
 
-                userInfo = await fetchUserInfo();
+                globalData.accountInfo = await fetchUserInfo();
 
-                $('#octopus-user-fullname').html(userInfo.fullName);
-                $('#octopus-account-ref').html(userInfo.accounts[0].number);
+                $('#octopus-user-fullname').html(globalData.accountInfo.fullName);
+                $('#octopus-account-ref').html(globalData.accountInfo.accounts[0].number);
+
+                globalData.meters = await fetchMeterInformation();
+                console.log(globalData.meters);
+
+                await performRefresh();
 
                 $('#login-box').addClass('d-none');
 
@@ -254,6 +469,45 @@
 
                 $('#ihd-page').removeClass('d-none');
             }, 500);
+        }
+
+        async function setupRefresh() {
+            setTimeout(performRefresh, (1000 * 10));
+        }
+
+        async function performRefresh() {
+            globalData.currentDemand = await getCurrentDemand();
+            console.log("Current Demand: " + globalData.currentDemand + " W");
+
+            var demand = globalData.currentDemand;
+            if (demand < 0) {
+                demand = demand * -1;
+                $('#live-usage-icon').html('<i class="fa-solid fa-charging-station" style="font-size: 3.5rem;"></i>');
+                $('#live-usage').trigger('configure', {'fgColor': '#17a2b8'});
+                $('#live-usage-cost').html('+£ 0.00 / hr');
+            } else {
+                $('#live-usage-icon').html('<i class="fa-solid fa-bolt" style="font-size: 4rem;"></i>');
+
+                var color = '#28a745';
+                if (demand > 5000) {
+                    color = '#dc3545';
+                } else if (demand > 1500) {
+                    color = '#ffc107';
+                }
+                $('#live-usage').trigger('configure', {'fgColor': color});
+
+                $('#live-usage-cost').html('£ 0.00 / hr');
+            }
+
+            $('#live-usage').val(demand).trigger("change");
+
+            var usage = demand + " W";
+            if (demand > 1000) {
+                usage = (demand / 1000) + " kW";
+            }
+            $('#live-usage-total').html(usage);
+
+            setupRefresh();
         }
 
         function getTimestampInSeconds() {
